@@ -23,6 +23,8 @@ public class Main extends MyWindow
 	Rectangle2D.Double player2;//SECOND PLAYER!
 	Rectangle2D.Double ball;
 	double vx, vy;
+	int score1 = 0;
+	int score2 = 0;
 	static final int WINDOW_WIDTH = 1280,WINDOW_HEIGHT=720;
 	public Main() 
 	{
@@ -43,7 +45,7 @@ public class Main extends MyWindow
 	@Override
 	public void initialize() 
 	{
-		vx = -4;
+		vx =-4;
 		vy= 3;
 		player1=new Rectangle2D.Double(10, 10, 50, 200);
 		player2=new Rectangle2D.Double(WINDOW_WIDTH-60, 10, 50, 200);
@@ -97,7 +99,27 @@ public class Main extends MyWindow
 		glColor3f(1,1,1);// this sets color of every vertex to white. 1,1,1 is white.
 		drawPlayers();
 		drawBall();
+		drawLine();
 	}
+	
+	public void drawLine()
+	{
+		glBegin(GL_QUADS);
+		
+		for(int i=0; i<15; i++)//Makes dash line.
+		{
+			glVertex2d(WINDOW_WIDTH/2-5,10+i*50);
+			glVertex2d(WINDOW_WIDTH/2+5,10+i*50);
+			glVertex2d(WINDOW_WIDTH/2+5,10+i*50+40);
+			glVertex2d(WINDOW_WIDTH/2-5,10+i*50+40);
+			
+			
+		}
+		
+		glEnd();
+		
+	}
+	
 	public void drawPlayers()
 	{
 		glBegin(GL_QUADS);//GL_QUADS makes a Quaderlateral.
@@ -121,16 +143,21 @@ public class Main extends MyWindow
 		ball.y+=vy;
 		if(ball.x+ball.width>WINDOW_WIDTH)
 		{
+			score1++;
 			ball.x=WINDOW_WIDTH/2;
-			vy=-4;
-			vx=3;
-			
+			vx=-4;
+			vy=3;
+			System.out.println("Player1Score"+score1);
+			System.out.println("Player2Score"+score2);
 		}
 		if(ball.x<0)
 		{
 			ball.x=WINDOW_WIDTH/2;
-			vy=-4;
-			vx=3;
+			vx=-4;
+			vy=3;
+			score2++;
+			System.out.println("Player1Score"+score1);
+			System.out.println("Player2Score"+score2);
 		}
 		
 		else if(ball.y+ball.height>WINDOW_HEIGHT||ball.y<0)//flips the velocity to bounce off walls.
